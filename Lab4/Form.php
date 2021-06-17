@@ -1,352 +1,421 @@
 <?php
-        $name="";
-        $err_name="";
-        
-        $uname="";
-        $err_uname="";
-        
-        $pass="";
-        $err_pass="";
-        
-        $cpass="";
-        $err_cpass="";
+	$name="";
+	$err_name="";
+	
+	$username="";
+	$err_username="";
+	
+	$password="";
+	$err_password="";
+	
+    $Cpassword="";
+	$err_Cpassword="";
+	
+    $email="";
+    $err_email="";
+	
+    $code="";
+    $err_code="";
+	
+    $phone="";
+    $err_phone="";
+	
+    $address="";
+    $err_address="";
+	
+    $city="";
+    $err_city="";
+	
+    $state="";
+    $err_state="";
+	
+    $PZcode="";
+    $err_PZcode="";
+	
+	$gender="";
+	$err_gender="";
+	
+	$dating="";
+	$err_dating="";
+	
+    $Month="";
+ 	$err_Month="";
+	
+    $year="";
+	$err_year="";
+	
+	$hobbies=[];
+	$err_hobbies="";
+	
+	$bio="";
+	$err_bio="";
 
-        $mail="";
-        $err_mail="";
-        
-        $phone="";
-        $err_phone="";
-        
-        $code="";
-        $err_code="";
+	$hasError=false;
 
-        $city="";
-        $err_city="";
+	$array= array("Jaunary","February","March","April","May","June", "July" ,"August","September","Octobar","November","December");
 
-        $state="";
-        $err_state="";
+	function hobbyExist($hobby){
+		global $hobbies;
+		foreach($hobbies as $h){
+		if($h == $hobby) return true;
+		}
+		return false;
+	}
 
-        $zip="";
-        $err_zip="";
 
-        $address="";
-        $err_address="";
+	//if($_SERVER["REQUEST_METHOD"]=="POST"){
+	if(isset($_POST["submit"])){
+		if(empty($_POST["name"])){
+			$hasError = true;
+			$err_name="Name Required";
+		}
+		else if(strlen($_POST["name"]) <= 2){
+			$hasError = true;
+			$err_name="Name must contain >2 character";
+		}
+		else{
+		htmlspecialchars($name = $_POST["name"]);
+		}
+    if(empty($_POST["username"]))
+      {
+				$hasError = true;
+				$err_username="Username Required";
+			}
+    else if (strlen($_POST["username"]) <= 5) {
+                $hasError=true;
+                $err_username="Must be in <5 character";
+            }
+    else if(strpos($_POST["username"]," ")){
+                 $hasError=true;
+                $err_username="Username should not contain white space";
+      }
+   else {
 
-        $date="";
-        $err_date="";
+	$username=$_POST["username"];
+    }
 
-        $month="";
-        $err_month="";
+			if(empty($_POST["password"]))
+      {
+        $hasError=true;
+				$err_password="Password Required";
+      }
+      else if(isset($_POST[""])){
+		       echo htmlspecialchars($_POST["pass"]);
+		    }
+			 else if(strlen($_POST["password"])<8){
+        $hasError=true;
+				 $err_password="Password Must Be 8 Charachter Long";
+		 }
+			 else if(!strpos($_POST["password"],"#")){
+         $hasError=true;
+			 $err_password="Password should contain special character";
+		    }
+		 else if(!strpos($_POST["password"],"1")){
+         $hasError=true;
+			    $err_password="Password should contain Numeric values";
+		   }
+		   else if(!ctype_upper($_POST["password"])){
+          $hasError=true;
+			     $err_password="Password should contain UpperCase values";
+		    }
+		     else if(!ctype_lower($_POST["password"])){
+           $hasError=true;
+			    $err_password="Password should contain LowerCase values";
+		     }
+		   else if(strpos($_POST["password"]," ")){
+          $hasError=true;
+			    $err_password="Password should not contain white space";
+		    }
+			 else{
+				 $password=$_POST["password"];
+			 }
 
-        $year="";
-        $err_year="";
+        if(empty($_POST["Cpassword"]))
+       {
+	         $hasError = true;
+	        $err_Cpassword="Cofirm Password Required";
+       }
+        else if($_POST["password"]!=$_POST["Cpassword"])
+      {
+              $hasError = true;
+              $err_Cpassword="Password doesn't match";
+       }
+         else {
 
-        $gender="";
-        $err_gender="";
-       
-        $hear="";
-        $err_hear="";
-        
-        $bio="";
-        $err_bio="";
-
-        // ** Validation Part ** //
-        
-        if($_SERVER["REQUEST_METHOD"]=="POST"){
-            if(empty($_POST["name"])){
-                $err_name="Name required";
-            }
-            else if(strlen($_POST["name"]) < 6){
-                $err_name="Name must be more than 6 characters long";
-            }
-            else if(strpos($_POST["name"]," ")){
-                $err_name="Name should not contain whitespace";
-            }
-
-            else{   
-                $name=htmlspecialchars($_POST["name"]);
-
-            }
-
-            if(empty($_POST["uname"])){
-                $err_uname="User name required";
-            }
-            else if(strlen($_POST["uname"]) < 6){
-                $err_uname="Username must be more than 6 characters long";
-            }
-            else if(strpos($_POST["uname"]," ")){
-                $err_uname="Username should not contain whitespace";
-            }
-
-            else{   
-                $uname=$_POST["uname"];
-
-            }
-
-            if(empty($_POST["pass"]))
-            {
-                $err_pass="[Password Required]";
-            }
-            elseif(htmlspecialchars($_POST["pass"]))
-            {
-                $err_pass=["HTML KeyWords Used"];
-            }
-            elseif (strlen($_POST["uname"])<8) {
-                $err_pass=["[Password must be 8 charachters long"];
-            }
-            elseif(!strpos($_POST["pass"],"#"))
-            {
-                $err_pass="[Password should contain special character]";
-            }
-            elseif(!is_numeric($_POST["pass"]))
-            {
-                $err_pass="[Password should contain Numeric values]";
-            }
-            elseif(!ctype_upper($_POST["pass"]))
-            {
-                $err_pass="[Password should contain UpperCase values]";
-            }
-            elseif(!ctype_lower($_POST["pass"]))
-            {
-                $err_pass="[Password should contain LowerCase values]";
-            }
-
-            elseif(strpos($_POST["pass"]," "))
-            {
-                $err_pass="[Password should not contain white space]";
-            }
-            else
-            {
-                $err_pass=$_POST["pass"];
-            }
-			if(empty($_POST["pass"])){
-                $err_cpass="Enter pass again";
-                
-            }
-            else if($_POST["cpass"]!=$pass){
-                $err_cpass="Password mismatch";
-            }
-            if(empty($_POST["mail"])){
-                $err_mail="E-mail required";
-            }
-            else if(!strpos($_POST["mail"],"@")){
-                $err_mail="Must contain @";
-            }
-            else{   
-                $name=htmlspecialchars($_POST["mail"]);
-            }
-            if(empty($_POST["city"])|| empty($_POST["state"])||empty($_POST["zip"] )){
-                $err_address="Address required";
-            }
-            else if(strpos($_POST["city"]," ")|| strpos($_POST["state"]," ")||strpos($_POST["zip"]," ")){
-                $err_address="Address should not contain whitespace";
-            }
-            else{   
-                $address=htmlspecialchars($_POST["city"].",".$_POST["state"].",".$_POST["zip"]);
-            }
-
-            
-            if(!is_numeric($_POST["code"])||!is_numeric($_POST["phone"]) ){
-                $err_phone="Phone number should not contain letters";
-
-            }
-            else{
-                $phone= $_POST["code"].$_POST["phone"];
+	         $Cpassword=$_POST["Cpassword"];
             }
 
 
-            if(empty($_POST["gender"])){
-                $err_gender="Gender must be selected";
-            }
-            else{
-                $gender=$_POST["gender"];
-            }
+         if(empty($_POST["code"]))
+          {
+	        $hasError = true;
+	         $err_code="code Required";
+          }
+       else if(!is_numeric($_POST["code"]))
+       {
+          $hasError = true;
+           $err_code="Invalid Code";
 
+       }
+        else {
 
-            if(empty($_POST["date"])){
-                $err_date="Date must be selected";
-            }
-            else{
-                $date=$_POST["date"];
-            }
-
-
-            if(empty($_POST["month"])){
-                $err_month="Month must be selected";
-            }
-            else{
-                $month=$_POST["month"];
-            }
-
-            if(empty($_POST["year"])){
-                $err_year="Year must be selected";
-            }
-            else{
-                $byear=$_POST["year"];
-            }
-
-
-            $up=$_POST["pass"];
-            for($i=0;$i<strlen($up);$i++){
-                if(ctype_lower($up[$i])){
-                    $upt=true;
-                    break;
-                }
-                else{
-                    $err_pass="there is no upper";
-                }
-            }
-            $low=$_POST["pass"];
-            for($i=0;$i<strlen($up);$i++){
-                if(ctype_lower($up[$i])){
-                    $lowt=true;
-                    break;
-                }
-                else{
-                    $err_pass="there is no upper";
-                }
-            }
-
-
-            if(!isset($_POST["hear[]"])){
-                $err_hear="This must be selected";
-            }
-            else{
-                $hobbies=$_POST["hear[]"];
-            }
-
-
-            if(empty($_POST["text"])){
-                $err_bio="Bio should not be empty";
-            }
-            else{
-                $bio=htmlspecialchars($_POST["text"]);
-            }
-           
-           
-        
+	$code=$_POST["code"];
+         }
+         if(empty($_POST["phone"]))
+    {
+	$hasError = true;
+	$err_phone="Phone Required";
+       }
+      else if(!is_numeric($_POST["phone"])){
+	$hasError = true;
+	$err_phone="Phone Required";
         }
+      else {
+
+	$phone=$_POST["phone"];
+       }
+
+
+
+        if(empty($_POST["address"]))
+      {
+	$hasError = true;
+	$err_address="Address Required";
+           }
+
+          else {
+
+	$address=$_POST["address"];
+         }
+        if(empty($_POST["city"]))
+      {
+	$hasError = true;
+	$err_city="City Required";
+    }
+
+       else {
+
+	$city=$_POST["city"];
+   }
+         if(empty($_POST["state"]))
+    {
+	        $hasError = true;
+	         $err_state="state Required";
+         }
+
+         else {
+
+           	$state=$_POST["state"];
+            }
+
+            if(empty($_POST["PZcode"]))
+          {
+	       $hasError = true;
+	     $err_PZcode="state Required";
+          }
+
+           else {
+
+	        $PZcode=$_POST["PZcode"];
+           }
+
+           if (empty($_POST["email"])) {
+           $hasError=true;
+        $err_email = "Email is required";   }
+            elseif(strpos($_POST["email"],"@.")){
+          $hasError=true;
+			     $err_email="Email must contain @ and .";
+		     }
+
+			 else {
+                 $email =$_POST["email"];
+             }
+
+		if(!isset($_POST["gender"])){
+			$hasError = true;
+			$err_gender="Gender Required";
+		}
+		else{
+			$gender = $_POST["gender"];
+		}
+		if(!isset($_POST["hobbies"])){
+			$hasError = true;
+			$err_hobbies="Checking Required";
+		}
+		else{
+			$hobbies = $_POST["hobbies"];
+		}
+		if (!isset($_POST["date"])){
+			$hasError = true;
+			$err_dating="Date Required";
+		}
+		else{
+			$dating = $_POST["date"];
+		}
+    if (!isset($_POST["Month"])){
+      $hasError = true;
+      $err_Month="Month Required";
+    }
+    else{
+      $Month = $_POST["Month"];
+    }
+    if (!isset($_POST["year"])){
+      $hasError = true;
+      $err_year="year Required";
+    }
+    else{
+      $year = $_POST["year"];
+    }
+
+		if(empty($_POST["bio"])){
+			$hasError = true;
+			$err_bio = "Bio Required";
+		}
+		else{
+			$bio = $_POST["bio"];
+		}
+
+
+		if(!$hasError){
+
+			echo "<h1>Form submitted</h1>";
+			echo $_POST["name"]."<br>";
+			echo $_POST["username"]."<br>";
+			echo $_POST["password"]."<br>";
+            echo $_POST["Cpassword"]."<br>";
+            echo $_POST["email"]."<br>";
+            echo $_POST["code"]."<br>";
+            echo $_POST["phone"]."<br>";
+            echo $_POST["address"]."<br>";
+            echo $_POST["city"]."<br>";
+            echo $_POST["state"]."<br>";
+            echo $_POST["PZcode"]."<br>";
+			echo $_POST["gender"]."<br>";
+			echo $_POST["date"]."<br>";
+            echo $_POST["Month"]."<br>";
+            echo $_POST["year"]."<br>";
+			echo $_POST["bio"]."<br>";
+			$arr = $_POST["hobbies"];
+
+			foreach($arr as $e){
+				echo "$e<br>";
+			}
+		}
+
+	}
+
 ?>
-              <!-- HTML Part-->
-
-
 <html>
-  <head>
+	  <head>
        <title>Club Member Registration Form</title>
 
   </head>
-<body>
-
-
-        <fieldset style="display: inline-block;">
+	<body>
+	          <fieldset style="display: inline-block;">
             <legend><h1>Club Member Registrations</h1></legend>
-            <form action="" method="post">
-                <table>
-                    <tr>
-                        <td><span><b>Name</b></span></td>
-                        <td>: <input type="text" name="name" placeholder ="Name">
-                            <span><?php echo $err_name;?></span></td>
-                    </tr>
-                    <tr>
-                        <td><span><b>Username</b></span></td>
-                        <td>: <input type="text" name="uname" placeholder ="Username">
-                            <span><?php echo $err_uname;?></span></td>
-                    </tr>
-                    <tr>
-                        <td><span><b>Password</b></span></td>
-                        <td>: <input type="password" name="pass" placeholder ="Password">
-                        <span><?php echo $err_pass;?></span></td>
-                    </tr>
-                    <tr>
-                        <td><span><b>Confirm Password</b></span></td>
-                        <td>: <input type="password" name="cpass" placeholder ="Confirm Password">
-                        <span><?php echo $err_cpass;?></span></td>
-                    </tr>
-                    <tr>
-                        <td><span><b>Email</b></span></td>
-                        <td>: <input type="text" name="mail" placeholder ="E-mail">
-                        <span><?php echo $err_mail;?></span></td>
-                    </tr>
-                    <tr>
-                        <td><span><b>Phone</b></span></td>
-                        <td>: <input type="text" name="code" placeholder ="+880" size="3"> - <input type="text" name="phone" placeholder ="Number" size = "10">
-                        <span><?php echo $err_phone;?></span></td>
-                    </tr>
-                    
-					<tr>
-                        <td><span><b>Address</b></span></td>
-						<td>: <input type="text" name="sa" placeholder="Street Address"></td>
-                    </tr>
+		            <form action="" method="post">
+		<fieldset>
+			<table>
+				<tr>
+					<td>Name</td>
+					<td>: <input type="text" name="name" value="<?php echo $name;?>" placeholder="Your name ...."> </td>
+					<td><span> <?php echo $err_name;?></span></td>
+				</tr>
+				<tr>
+					<td>Username</td>
+					<td>: <input type="text" name="username" value="<?php echo $username;?>" placeholder="Username....">  </td>
+					<td><span> <?php echo $err_username;?> </span></td>
+				</tr>
+				<tr>
+					<td>Password</td>
+					<td>: <input type="password" name="password"  value="<?php echo $password;?>"placeholder="Password.....">  </td>
+					<td><span> <?php echo $err_password;?> </span></td>
+				</tr>
+             <tr>
+             <td>Confirm Password</td>
+                  <td>: <input type="password" name="Cpassword"value="<?php echo $Cpassword;?>" placeholder="Password.....">  </td>
+                 <td><span> <?php echo $err_Cpassword;?> </span></td>
+              </tr>
+                <tr>
+                   <td>Email</td>
+                <td>: <input type="text" name="email"value="<?php echo $email;?>" placeholder="Email....">  </td>
+                <td><span> <?php echo $err_email;?> </span></td>
+             </tr>
+	
+	         <tr>
+                   <td>Phone</td>
+                <td>: <input type="text" name="code" placeholder ="+880" size="3"> - <input type="text" name="phone" placeholder ="Number" size = "10">
+                    <td><span> <?php echo $err_code;?></span><span> <?php echo $err_phone;?> </span></td>
+            </tr>
+                 <tr>
+                      <td>Address</td>
+              <td>: <input type="text" name="address"value="<?php echo $address;?>" placeholder="Address...."> <br> <br>
+			        <input type="text" name="city"value="<?php echo $city;?>" placeholder="City....">
+                    <input type="text" name="state" value="<?php echo $state;?>" placeholder="State...."> <br><br>  
+					<input type="text" name="PZcode"value="<?php echo $PZcode;?>" placeholder="Postral/Zip Code....">
+               </td>
+             <td><span> <?php echo $err_city;?> </span><span> <?php echo $err_state;?> </span><span> <?php echo $err_PZcode;?> </span></td>
+                </tr>
+  
+                  <tr>
+					<td>Gender</td>
+					<td>: <input type="radio" value="Male" <?php if($gender=="Male") echo "checked"; ?> name="gender"> Male <input name="gender" <?php if($gender=="Female") echo "checked"; ?> value="Female" type="radio"> Female </td>
+					<td><span> <?php echo $err_gender;?> </span></td>
+				</tr>
+				<tr>
+					<td>Birth Date</td>
+					<td>: <select name="date"><option disabled selected>---Date---</option>
+                <?php
+                for($i=1; $i<=31; $i++)
+                  {
+                     echo "<option> $i </option>";
+                  }
+                 ?>
+                      </select>
 
-					<tr>
-                        <td> <td><input type="text" name="city" placeholder ="City" size='6'> - <input type="text" name="state" placeholder ="State" size='6'> </br>
-                         <input type="text" name="zip" placeholder ="Postal/zip code">
-						 
-                        <span><?php echo $err_address ;?></span>
-                        <span><?php echo $err_city ;?></span>
-                        <span><?php echo $err_city ;?></span></td></td>
-						</tr>
-					<td><span><b>Birth Date</b></span></td>
-                        <td>:<select name ="date">
-                        <option disabled selected>Date</option>
-                        <?php    for($date = 1; $date <= 31; $date++) echo"<option value = '".$date."'>".$date."</option>";     ?>
-                        </select>
-
-                        <select name ="month">
-                        <option disabled selected>Month</option>
-						    <option>Jan</option>
-							<option>Feb</option>
-							<option>March</option>
-							<option>April</option>
-							<option>May</option>
-							<option>June</option>
-							<option>July</option>
-							<option>Aug</option>
-							<option>Sep</option>
-							<option>Nov</option>
-							<option>Dec</option>
-						</select>
-                 
-                        <select name ="year">
-                        <option disabled selected>Year</option>
-                        <?php         for($year = 1960; $year <= 2021; $year++)echo"<option value = '".$year."'>".$year."</option>";     ?>
-                        </select>
-
-                        <span><?php echo $err_date;?></span>
-                        <span><?php echo $err_month;?></span>
-                        <span><?php echo $err_year;?></span></td>
-                    </tr>
-						</select>
+                    <select name="Month"> <option disabled selected>---Month---</option>
+                <?php
+  				foreach($array as $p)
+				{
+                 echo "<option selected>$p</option>";
+                }
+  			     ?>
+                      </select>
+                      <select name="year">
+                     <option disabled selected>---year---</option>
+                 <?php
+                 for($j=1920; $j<=2010; $j++)
+                {
+                  echo "<option> $j </option>";
+                 }
+                ?>
+			        </select>
+					</td>
+					<td><span> <?php echo $err_dating;?></span>
+                        <span><?php echo $err_Month;?></span>
+                        <span><?php echo $err_year;?> </span></td>
+				    </tr>
+				    <tr>
+					<td>Where did you hear about us ?</td>
+					<td>:
+                    <input type="checkbox" name="hobbies[]" <?php if(hobbyExist("A Friend or Collegue")) echo "checked";?> value="A Friend or Collegue"> A Friend or Collegue <br>
+					<input type="checkbox" name="hobbies[]" <?php if(hobbyExist("Google Post")) echo "checked";?> value="Google Post"> Google Post<br>
+					<input type="checkbox" name="hobbies[]" <?php if(hobbyExist("News Articals")) echo "checked";?> value="News Articals"> News Articals <br>
+                    <input type="checkbox" name="hobbies[]" <?php if(hobbyExist("Blog Post")) echo "checked";?> value="Blog Posts"> Blog Posts <br>
+					</td>
+					<td><span> <?php echo $err_hobbies;?> </span></td>
+				</tr>
+				<tr>
+					<td>Bio</td>
+					<td>: <textarea name="bio" ><?php echo $bio; ?></textarea>
+					<td><span> <?php echo $err_bio;?> </span></td>
 					</td>
 				</tr>
-                
-                    <tr>
-                        <td><span><b>Gender</b></span></td>
-                        <td>: <input type="radio" name="gender" value="male">Male
-                            <input type="radio" name="gender" value="male">Female
-                            <span><?php echo $err_gender;?></span></td>
-                    </tr>
-                    <tr>
-                        <td><span><b>Where did you hear about us ?</b></span></td>
-                        <td> <input type="checkbox"value="A Friend or Colleague" name="hear[]"> A Friend or Colleague </br>
-                        <input type="checkbox" value="Google" name="hear[]">Google </br>
-                        <input type="checkbox" value="Blogpost" name="hear[]">Blog Post </br>
-                        <input type="checkbox" value="News Article" name="hear[]">News Article <br>
-                        <span><?php echo $err_hear;?></span></td>
-                    </tr>
-                    
-                    <tr>
-                        <td><span><b>Bio</b></span></td>
-                        <td>: <textarea name="text"></textarea><br>
-						<span><?php echo $err_bio;?></span></td>
-						</tr>
-						<br>
-			<tr>
+				<tr>
 				<td><td><input type="submit" name="Register" value="Register"></td></td>
 			</tr>
-
-                </table>
-			</form> 
-    </fieldset>   
-</body>
+			</table>
+		</fieldset>
+		</form>
+	</body>
 </html>
