@@ -111,7 +111,7 @@
 				
 				<tr>
 					<td rowspan="2" align ="center"> 
-					 <input type="button" value = "SUBMIT" >
+					 <input type="button" value = "Submit" >
 					 </td>
 				</tr>
 				
