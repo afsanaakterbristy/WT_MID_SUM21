@@ -1,8 +1,8 @@
 <html>
-    <body>
-        <footer>
+<body>
+    <footer>
             <hr>
             <h3>Afsana Akter Bristy</h3>
-        </footer>
-    </body>
+    </footer>
+</body>
 </html>
